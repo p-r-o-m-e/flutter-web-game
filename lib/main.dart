@@ -4,6 +4,7 @@
 
 import 'dart:developer' as dev;
 
+import 'package:basic/screens/login_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ import 'settings/settings.dart';
 import 'style/palette.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   // Basic logging setup.
   Logger.root.level = kDebugMode ? Level.FINE : Level.INFO;
   Logger.root.onRecord.listen((record) {
@@ -29,7 +31,6 @@ void main() async {
     );
   });
 
-  WidgetsFlutterBinding.ensureInitialized();
   // Put game into full screen mode on mobile devices.
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   // Lock the game to portrait mode on mobile devices.
@@ -98,14 +99,7 @@ class MyApp extends StatelessWidget {
             ).copyWith(
               //make splashcolor look cool
               splashColor: Colors.transparent.withOpacity(0.025),
-              // elevatedButtonTheme: ElevatedButtonThemeData(
-              //     style: ElevatedButton.styleFrom(
-              //   textStyle: TextStyle(
-              //       fontFamily: 'LTC',
-              //       fontWeight: FontWeight.w600,
-              //       fontSize: 20,
-              //       color: palette.ink),
-              // )),
+
               filledButtonTheme: FilledButtonThemeData(
                 style: FilledButton.styleFrom(
                   textStyle: TextStyle(

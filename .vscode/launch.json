@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         
         {
             "name": "flutter web",
@@ -11,6 +12,13 @@
             "type": "dart",
             "flutterMode" :"debug",
             "args" : ["-d","Chrome"]
+        },
+        {
+            "name": "flutter win",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode" :"debug",
+            "args" : ["-d","Windows"]
         },
         {
             "name": "flutter games main templates-basic (profile mode)",

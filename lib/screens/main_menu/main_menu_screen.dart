@@ -4,6 +4,8 @@
 
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:basic/utils/snackbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -44,8 +46,13 @@ class MainMenuScreen extends StatelessWidget {
             // _gap,
             MyButton(
               onPressed: () {
-                audioController.playSfx(SfxType.buttonTap);
-                GoRouter.of(context).go('/login');
+                if (kIsWeb) {
+                  SnackBarTool.showSnackBar(
+                      context, "Web platform isn't supported, yet!");
+                } else {
+                  audioController.playSfx(SfxType.buttonTap);
+                  GoRouter.of(context).go('/login');
+                }
               },
               child: const Text('Play'),
             ),

@@ -1,15 +1,19 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_final_fields
+
+import 'dart:io';
+import 'dart:isolate';
 
 import 'package:basic/style/my_button.dart';
 import 'package:basic/style/palette.dart';
 import 'package:basic/utils/image_processor.dart';
-import 'package:basic/utils/snackBar.dart';
+import 'package:image/image.dart' as img;
 import 'package:basic/utils/volatile_storage.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter/services.dart';
 
 class LoadingSession extends StatefulWidget {
   final bool autoProceed;
@@ -26,6 +30,7 @@ class _LoadingSessionState extends State<LoadingSession> {
   @override
   void initState() {
     super.initState();
+    _isolateFun();
   }
 
   @override
@@ -39,7 +44,9 @@ class _LoadingSessionState extends State<LoadingSession> {
           SizedBox(
             height: 16,
           ),
-          SpinKitPouringHourGlass(color: palette.ink),
+          Visibility(
+              visible: !_loadingCompleted,
+              child: SpinKitPouringHourGlass(color: palette.ink)),
           SizedBox(
             height: 12,
           ),
@@ -74,18 +81,54 @@ class _LoadingSessionState extends State<LoadingSession> {
     );
   }
 
-  Future<void> performLoading() async {
-    //obtain avatar images from spritesheet
-    final List<Image> avatarList =
-        await compute(ImageProcessor.sliceSpritesheetImage, [
-      Constants.avatarSpritesheetPath,
-      Constants.avatarSpriteSheetColRows[0],
-      Constants.avatarSpriteSheetColRows[1]
+  static void performLoading(List<dynamic> args) async {
+    print('performingLoading');
+    SendPort sender1 = args[0] as SendPort;
+    final token = args[1] as RootIsolateToken;
+    final imgPath = Constants.avatarSpritesheetPath;
+    BackgroundIsolateBinaryMessenger.ensureInitialized(token);
+
+    final Uint8List imageBytes = await File(imgPath).readAsBytes();
+    final flutterImageList = await ImageProcessor.sliceSpritesheetImage(
+        imageBytes,
+        Constants.avatarSpriteSheetColRows[0],
+        Constants.avatarSpriteSheetColRows[1]);
+
+    sender1.send(flutterImageList);
+  }
+
+  void _isolateFun() {
+    ReceivePort receiver0 = ReceivePort();
+    final token = RootIsolateToken.instance;
+
+    // final imgg = Image.asset("name");
+    // ByteData b = imgg.to
+    // BackgroundIsolateBinaryMessenger.ensureInitialized(token!);
+    // WidgetsFlutterBinding.ensureInitialized();
+
+    Isolate.spawn(performLoading, [
+      receiver0.sendPort,
+      token,
     ]);
-    for (var i in avatarList) {
-      VolatileStorage.addtoStringImageDict(
-          'avatarlist${avatarList.indexOf(i)}', i);
-    }
-    _log.info('Loading complete.');
+    _log.info('isolate spawned');
+
+    receiver0.listen((message) {
+      _log.info('received ${message.runtimeType.toString()}');
+      if (message is bool && message) {
+        _log.info('Isolated process success. setting loadingComplete to true.');
+        // receiver0.close();
+        setState(() {
+          _loadingCompleted = true;
+        });
+      } else if (message is List<Image>) {
+        _log.info('Got imageList. setting loadingComplete to true.');
+        setState(() {
+          _loadingCompleted = true;
+        });
+      } else {
+        _log.info(
+            'INVALID: received a ${message.runtimeType.toString()} from Isolate1');
+      }
+    });
   }
 }
