@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 
 /// A widget that makes it easy to create a screen with a square-ish
 /// main area, a smaller menu area, and a small area for a message on top.

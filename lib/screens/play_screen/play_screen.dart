@@ -1,28 +1,30 @@
-import 'package:basic/style/responsive_screen.dart';
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
+// import 'dart:io';
+// import 'dart:js';
+
+import 'package:basic/screens/play_screen/desktop_ui.dart';
+import 'package:basic/screens/play_screen/mobile_UI.dart';
+import 'package:basic/style/palette.dart';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PlayScreen extends StatelessWidget {
-  final String avatarPath = "assets/images/avatars/0.png";
-
   const PlayScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveScreen(
-        squarishMainArea: CircleAvatar(child: Icon(Icons.abc)
-            //     FutureBuilder<List<Image>?>(
-            //   future: ImageProcessor.sliceSpritesheetImage(
-            //       imagePath: avatarPath, cols: 3, rows: 3),
-            //   builder: (context, snapshot) {
-            //     if (snapshot.connectionState == ConnectionState.done &&
-            //         snapshot.hasData) {
-            //       return snapshot.data![0];
-            //     } else {
-            //       return Icon(Icons.do_not_disturb);
-            //     }
-            //   },
-            // )
-            ),
-        rectangularMenuArea: Text("beta"));
+    final palette = context.read<Palette>();
+    return Scaffold(
+      backgroundColor: palette.backgroundPlaySession,
+      body: LayoutBuilder(builder: (context, constraints) {
+        return Padding(
+            padding: const EdgeInsets.all(6),
+            child: (constraints.biggest.height > constraints.biggest.width)
+                ? MobileUI(constraints.biggest)
+                : DesktopUI(constraints.biggest));
+      }),
+    );
   }
 }

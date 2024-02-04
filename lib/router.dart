@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:basic/screens/loading_screen/filler.dart';
+import 'package:basic/screens/loading_screen/initLoader.dart';
 import 'package:basic/screens/login_screen.dart';
 import 'package:basic/screens/play_screen/play_screen.dart';
 import 'package:flutter/foundation.dart';
@@ -37,14 +37,13 @@ final router = GoRouter(
             },
             routes: [
               GoRoute(
-                path: 'filler',
+                path: 'loader',
                 pageBuilder: (context, state) {
                   return buildMyTransition<void>(
-                      key: ValueKey('filler'),
+                      key: ValueKey('loader'),
                       color: context.read<Palette>().backgroundSettings,
-                      child: LoadingSession(
-                        key: Key('login screen'),
-                        autoProceed: false,
+                      child: InitLoadingSession(
+                        key: Key('Initial Loading screen'),
                       ));
                 },
               )

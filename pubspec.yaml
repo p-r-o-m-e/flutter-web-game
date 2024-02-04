@@ -33,11 +33,13 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/avatars/transparent/
     - assets/images/misc/
     - assets/images/avatars/
     - assets/images/
     - assets/music/
     - assets/sfx/
+    - assets/images/bg/
 
   fonts:
     - family:  CustomFlutterIcon

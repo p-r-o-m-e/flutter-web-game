@@ -119,15 +119,18 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 24),
             MyButton(
               onPressed: () {
-                GoRouter.of(context).go('/login/filler');
+                GoRouter.of(context).go('/login/loader');
               },
               child: const Text('Login'),
             ),
             SizedBox(
               height: 24,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
+              runSpacing: 12,
+              alignment: WrapAlignment.center,
+              // runAlignment: WrapAlignment.end,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text('Or login with \t'),
                 OutlinedButton(
@@ -154,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         SnackBarTool.showSnackBar(context,
                             'Guest login is disabled on browser platform. You may Sign up so the server remembers you.');
                       } else {
-                        GoRouter.of(context).go('/play');
+                        GoRouter.of(context).go('/login/loader');
                       }
                     },
                     child: Text(

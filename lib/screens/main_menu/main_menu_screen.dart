@@ -31,7 +31,7 @@ class MainMenuScreen extends StatelessWidget {
       body: ResponsiveScreen(
         squarishMainArea: Center(
           child: const Text(
-            'Flutter Casual Game 0 ',
+            '7th Century ',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'BLACKCHA',
