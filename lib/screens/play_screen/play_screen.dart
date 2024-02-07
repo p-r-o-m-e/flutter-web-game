@@ -6,6 +6,7 @@
 import 'package:basic/screens/play_screen/desktop_ui.dart';
 import 'package:basic/screens/play_screen/mobile_UI.dart';
 import 'package:basic/style/palette.dart';
+import 'package:basic/utils/customicon.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +20,9 @@ class PlayScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: palette.backgroundPlaySession,
       body: LayoutBuilder(builder: (context, constraints) {
-        return Padding(
-            padding: const EdgeInsets.all(6),
-            child: (constraints.biggest.height > constraints.biggest.width)
-                ? MobileUI(constraints.biggest)
-                : DesktopUI(constraints.biggest));
+        return (constraints.biggest.height > constraints.biggest.width)
+            ? MobileUI(constraints.biggest)
+            : DesktopUI(constraints.biggest);
       }),
     );
   }

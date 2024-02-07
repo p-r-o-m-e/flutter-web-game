@@ -21,6 +21,7 @@ dependencies:
   shared_preferences: ^2.2.2
   image: ^4.1.6
   flutter_spinkit: ^5.2.0
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_lints: ^3.0.0
@@ -33,6 +34,17 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/monsters/atk/
+    - assets/images/monsters/def/
+    - assets/images/monsters/mp/
+    - assets/images/monsters/mr/
+    - assets/images/monsters/spe/
+    - assets/images/bg/spe/
+    - assets/images/bg/mr/
+    - assets/images/bg/mp/
+    - assets/images/bg/def/
+    - assets/images/bg/atk/
+    - assets/images/items/alchemy_herbs/
     - assets/images/avatars/transparent/
     - assets/images/misc/
     - assets/images/avatars/

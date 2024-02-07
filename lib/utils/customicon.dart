@@ -42,6 +42,8 @@ class CustomFlutterIcon {
       IconData(0xf3c8, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData shield_alt =
       IconData(0xf3ed, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData box =
+      IconData(0xf466, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData fist_raised =
       IconData(0xf6de, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

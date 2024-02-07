@@ -35,9 +35,13 @@ class _CustomNameDialogState extends State<CustomNameDialog> {
         curve: Curves.easeOutCubic,
       ),
       child: SimpleDialog(
-        title: const Text('Change name'),
+        title: const Text(
+          'Change name',
+          style: TextStyle(fontFamily: 'LTC'),
+        ),
         children: [
           TextField(
+            style: TextStyle(fontFamily: 'LTC'),
             controller: _controller,
             autofocus: true,
             maxLength: 12,

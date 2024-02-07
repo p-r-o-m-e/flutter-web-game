@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:basic/screens/level_selection/adventure_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class LevelSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.read<Palette>();
     final playerProgress = context.watch<PlayerProgress>();
+    // int selectedLevel;
 
     return Scaffold(
       backgroundColor: palette.backgroundLevelSelection,
@@ -42,18 +44,19 @@ class LevelSelectionScreen extends StatelessWidget {
                 children: [
                   for (final level in gameLevels)
                     ListTile(
-                      // textColor: Colors.blue,
                       enabled: playerProgress.highestLevelReached >=
                           level.number - 1,
                       onTap: () {
                         final audioController = context.read<AudioController>();
                         audioController.playSfx(SfxType.buttonTap);
 
-                        GoRouter.of(context)
-                            .go('/play/session/${level.number}');
+                        showAdventureSelector(context, level.number);
                       },
                       leading: Text(level.number.toString()),
-                      title: Text('Area #${level.number}'),
+                      title: Text(
+                        'Area #${level.number}',
+                        style: TextStyle(fontFamily: 'LTC'),
+                      ),
                     )
                 ],
               ),
@@ -62,7 +65,7 @@ class LevelSelectionScreen extends StatelessWidget {
         ),
         rectangularMenuArea: MyButton(
           onPressed: () {
-            GoRouter.of(context).go('/');
+            GoRouter.of(context).go('/play');
           },
           child: const Text('Back'),
         ),

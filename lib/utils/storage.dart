@@ -85,6 +85,8 @@ abstract class Constants {
       14; //number required to get a class and also the cap for stats gained via training
 
   //assets related constants
+  static List<String> get mapDirnames => ['atk', 'def', 'mp', 'mr', 'spe'];
+
   static String get currentAvatarPath =>
       "assets/images/avatars/transparent/Icon11.png";
   static String get avatarWritePath =>
@@ -107,6 +109,33 @@ abstract class Styles {
         fontWeight: fontWeight,
         fontSize: size,
         color: fontColor ?? Colors.yellow.shade200);
+  }
+
+  static BoxDecoration getRewardsBoxDecor(
+      {BorderRadiusGeometry? borderRadiusShape}) {
+    return BoxDecoration(
+      color: Color(0xFF747264),
+      borderRadius: borderRadiusShape ?? BorderRadius.circular(16),
+      border: Border.all(color: Color(0xFF555843)),
+    );
+  }
+
+  static BoxDecoration getMetalBoxDecor(
+      {BorderRadiusGeometry? borderRadiusShape}) {
+    return BoxDecoration(
+      color: Color.fromARGB(255, 119, 119, 119),
+      borderRadius: borderRadiusShape ?? BorderRadius.circular(16),
+      border: Border.all(color: Color.fromARGB(255, 099, 099, 099)),
+    );
+  }
+
+  static BoxDecoration getWoodBoxDecor(
+      {BorderRadiusGeometry? borderRadiusShape}) {
+    return BoxDecoration(
+      color: Color(0xFF7a5330),
+      borderRadius: borderRadiusShape ?? BorderRadius.circular(16),
+      border: Border.all(color: Color(0xFF604737)),
+    );
   }
 
   static BoxDecoration getBrownBoxDecor(

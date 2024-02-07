@@ -69,31 +69,37 @@ class _InitLoadingSessionState extends State<InitLoadingSession> {
             height: 16,
           ),
           Expanded(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 500,
-                height: 900,
-                child: SingleChildScrollView(
-                  child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.start
-                      // crossAxisAlignment: ,
-                      children: [
-                        Text(
-                          scrollText,
-                          // overflow: TextOverflow,
-                          // softWrap: true,
-                          style: TextStyle(fontFamily: 'LTC'),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                      ]),
+            flex: 20,
+            child: Row(
+              children: [
+                Expanded(child: SizedBox()),
+                Expanded(
+                  flex: 2,
+                  child: SizedBox(
+                    // width: 500,
+                    // height: 900,
+                    child: SingleChildScrollView(
+                      child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.start
+                          // crossAxisAlignment: ,
+                          children: [
+                            Text(
+                              scrollText,
+                              // overflow: TextOverflow,
+                              // softWrap: true,
+                              style: TextStyle(fontFamily: 'LTC'),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                          ]),
+                    ),
+                  ),
                 ),
-              )
-            ],
-          )),
+                Expanded(child: SizedBox()),
+              ],
+            ),
+          ),
           SizedBox(
             height: 8,
           ),
@@ -104,8 +110,10 @@ class _InitLoadingSessionState extends State<InitLoadingSession> {
                     }
                   : null,
               child: Text('Continue')),
-          SizedBox(
-            height: 12,
+          Expanded(
+            child: SizedBox(
+              height: 12,
+            ),
           )
         ],
       ),

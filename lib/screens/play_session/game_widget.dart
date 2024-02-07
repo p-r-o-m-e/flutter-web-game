@@ -17,12 +17,12 @@ class GameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final level = context.watch<GameLevel>();
+    // final level = context.watch<GameLevel>();
     final levelState = context.watch<LevelState>();
 
     return Column(
       children: [
-        Text('Drag the slider to ${level.difficulty}% or above!'),
+        // Text('Drag the slider to ${level.difficulty}% or above!'),
         Slider(
           label: 'Level Progress',
           autofocus: true,

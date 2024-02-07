@@ -63,7 +63,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
         // by widgets below this one in the widget tree.
         ChangeNotifierProvider(
           create: (context) => LevelState(
-            goal: widget.level.difficulty,
+            // goal: widget.level.difficulty,
             onWin: _playerWon,
           ),
         ),
@@ -131,11 +131,11 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   Future<void> _playerWon() async {
     _log.info('Level ${widget.level.number} won');
 
-    final score = Score(
-      widget.level.number,
-      widget.level.difficulty,
-      DateTime.now().difference(_startOfPlay),
-    );
+    // final score = Score(
+    //   // widget.level.number,
+    //   // widget.level.difficulty,
+    //   // DateTime.now().difference(_startOfPlay),
+    // );
 
     final playerProgress = context.read<PlayerProgress>();
     playerProgress.setLevelReached(widget.level.number);
@@ -155,6 +155,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
 
-    GoRouter.of(context).go('/play/won', extra: {'score': score});
+    // GoRouter.of(context).go('/play/won', extra: {'score': score});
   }
 }
