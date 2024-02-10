@@ -114,9 +114,10 @@ class InventoryWidget extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(
                               8.0), // Adjust the border radius as needed
-                          child: Image.asset(
-                              'assets/images/items/alchemy_herbs/1.png',
-                              fit: BoxFit.cover),
+                          child: Icon(
+                            Icons.grid_3x3_outlined,
+                            color: Color(0xFF604737).withOpacity(0.3),
+                          ),
                         ),
                       );
                     }),

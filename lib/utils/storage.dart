@@ -1,28 +1,17 @@
 // import "dart:ffi";
 
-import "package:flutter/foundation.dart";
+import "package:basic/game_internals/entities/items.dart";
+import "package:basic/game_internals/entities/monster.dart";
+import "package:basic/game_internals/skills/skills.dart";
 import "package:flutter/material.dart";
 
 abstract class VolatileStorage {
-  //value format avtarSpritesheet...
-  static final Map<String, Uint8List> _imageBytesDict = {};
+  static DateTime _inGameDate = DateTime(601);
 
-  static Uint8List getFromImageBytesDict(String key) {
-    // print(_imageBytesDict.keys);
-    // print(_imageBytesDict.length);
-    if (!_imageBytesDict.containsKey(key)) {
-      throw ArgumentError('Invalid key : $key');
-    } else {
-      return _imageBytesDict[key]!;
-    }
-  }
-
-  static void addtoImageBytesDict(String key, Uint8List val) {
-    _imageBytesDict.update(key, (value) => val, ifAbsent: () => val);
-  }
+  static void advanceInGameDate(int days, {int months = 0, int years = 0}) {}
 
   static String getInGameDateString() {
-    DateTime dateTime = DateTime(601);
+    DateTime dateTime = _inGameDate;
     String formattedDate =
         "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year}";
     return formattedDate;
@@ -39,17 +28,6 @@ abstract class VolatileStorage {
 
   static String get getPlayerPartner => 'None';
 
-  // static String _currentAvatarKey = 'aSs3';
-
-  // static String getCurrentAvatarKey() {
-  //   return _currentAvatarKey;
-  // }
-
-  // static void setCurrentAvatarKey(String key) {
-  //   _currentAvatarKey = key;
-  // }
-
-  //player stats
   static final Map<String, int> _playerNumbersDict = {
     'STR': Constants.initStat,
     'DEF': Constants.initStat,
@@ -72,6 +50,68 @@ abstract class VolatileStorage {
 }
 
 abstract class Constants {
+  //Items in game
+  static final Map<String, Item> _gameItems = {
+    "Mushroom": Item(
+        Tier.common,
+        "Mushroom",
+        Image.asset(
+          "assets/images/items/alchemy_herbs/20.png",
+        ),
+        "A probably poisonous mushroom from the wild")
+  };
+
+  //monsters in game
+  static final Map<String, Monster> _gameMonsters = {
+    "Goblin": Monster.newMonster(
+        "Goblin",
+        Skill("Jab", SkillType.physical, 100),
+        Image.asset("assets/images/monsters/atk/con16.png")),
+    "Buzzkill": Monster.newMonster(
+        "Buzzkill",
+        Skill("Sting", SkillType.physical, 100),
+        Image.asset("assets/images/monsters/atk/con16.png")),
+    "Arachni": Monster.newMonster(
+        "Arachni",
+        Skill("Snare", SkillType.physical, 100),
+        Image.asset("assets/images/monsters/atk/con16.png")),
+    "Skeleton": Monster.newMonster(
+        "Skeleton",
+        Skill("Stab", SkillType.physical, 100),
+        Image.asset("assets/images/monsters/atk/con16.png")),
+    "Grizzly": Monster.newMonster(
+        "Grizzly",
+        Skill("Maul", SkillType.physical, 100),
+        Image.asset("assets/images/monsters/atk/con16.png")),
+    "Orc": Monster.newMonster("Orc", Skill("Smash", SkillType.physical, 100),
+        Image.asset("assets/images/monsters/atk/con16.png")),
+    "Viper": Monster.newMonster("Viper", Skill("Bite", SkillType.physical, 100),
+        Image.asset("assets/images/monsters/atk/con16.png"))
+  };
+  static Monster newMonster(String monsterName) {
+    if (!_gameMonsters.containsKey(monsterName)) {
+      throw ArgumentError("invalid Monster name");
+    }
+    final monster = _gameMonsters[monsterName];
+    return monster!;
+  }
+
+  static Item newItem(String itemName) {
+    if (!_gameItems.containsKey(itemName)) {
+      throw ArgumentError("invalid item name");
+    }
+    final gameItem = _gameItems[itemName]!;
+    return Item(
+        gameItem.tier, gameItem.name, gameItem.icon, gameItem.description);
+  }
+
+  //probability related constants
+  static double followerAtkDefProbability = 0.1;
+  static int get legendaryLootProbability => 1;
+  static int get superRareLootProbability => 9;
+  static int get rareLootProbability => 20;
+  static int get commonLootProbability => 70;
+
   //UI constants
   static double get uiSizeMultiplier => 54;
   static Color get statBoxColor => Colors.brown.shade300;

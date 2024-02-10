@@ -1,15 +1,15 @@
 import 'dart:async';
 // import 'dart:html';
-import 'dart:io';
-import 'dart:math';
+// import 'dart:io';
+// import 'dart:math';
 
-// import 'package:basic/style/palette.dart';
+import 'package:basic/game_internals/battletools/battle_manager.dart';
 import 'package:basic/screens/level_selection/adventure_action_widget.dart';
+import 'package:basic/screens/level_selection/levels.dart';
 import 'package:basic/utils/storage.dart';
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 
-void showAdventureSelector(BuildContext context, int level) {
+void showAdventureSelector(BuildContext context, GameLevel level) {
   showGeneralDialog(
     context: context,
     pageBuilder: (context, animation, secondaryAnimation) =>
@@ -19,7 +19,7 @@ void showAdventureSelector(BuildContext context, int level) {
 
 class AdventureSelectorWidget extends StatefulWidget {
   final Animation<double> animation;
-  final int level;
+  final GameLevel level;
   const AdventureSelectorWidget(this.animation, this.level, {super.key});
 
   @override
@@ -52,7 +52,7 @@ class _AdventureSelectorWidgetState extends State<AdventureSelectorWidget> {
               onPressed: () {
                 Navigator.pop(context);
 
-                showAdventureWindow();
+                showAdventureWindow(BattleType.training);
               },
               child: Text('Train',
                   style: Styles.playerTextStyle(
@@ -63,7 +63,7 @@ class _AdventureSelectorWidgetState extends State<AdventureSelectorWidget> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                showAdventureWindow();
+                showAdventureWindow(BattleType.hunt);
               },
               child: Text('Hunt',
                   style: Styles.playerTextStyle(
@@ -73,7 +73,7 @@ class _AdventureSelectorWidgetState extends State<AdventureSelectorWidget> {
               onPressed: () {
                 // showAdventureWindow();
                 Navigator.pop(context);
-                showAdventureWindow();
+                showAdventureWindow(BattleType.conquest);
               },
               child: Text('Conquest',
                   style: Styles.playerTextStyle(
@@ -83,7 +83,7 @@ class _AdventureSelectorWidgetState extends State<AdventureSelectorWidget> {
               onPressed: () {
                 // showAdventureWindow();
                 Navigator.pop(context);
-                showAdventureWindow();
+                // showAdventureWindow();
               },
               child: Text('Expedition',
                   style: Styles.playerTextStyle(
@@ -111,30 +111,11 @@ class _AdventureSelectorWidgetState extends State<AdventureSelectorWidget> {
         ));
   }
 
-  void showAdventureWindow() {
-    // Future.delayed(Durations.extralong4);
-    final File map = loadRandomMapImageFile(widget.level);
+  void showAdventureWindow(BattleType battleType) {
     showAdventureWidget(
-        context,
-        Image.file(
-          map,
-          fit: BoxFit.cover,
-          // width: 150,
-          // height: 150,
-        ),
-        widget.level);
-  }
-
-  File loadRandomMapImageFile(int level) {
-    final Directory mapDir =
-        Directory('assets/images/bg/${Constants.mapDirnames[level - 1]}');
-    late File randomImageFile;
-    Random random = Random();
-
-    List<FileSystemEntity> fileList = mapDir.listSync();
-    List<File> imgFileList = fileList.whereType<File>().toList();
-
-    randomImageFile = imgFileList[random.nextInt(imgFileList.length)];
-    return randomImageFile;
+      context,
+      widget.level,
+      battleType,
+    );
   }
 }

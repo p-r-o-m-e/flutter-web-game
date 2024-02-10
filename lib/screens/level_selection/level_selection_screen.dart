@@ -50,7 +50,7 @@ class LevelSelectionScreen extends StatelessWidget {
                         final audioController = context.read<AudioController>();
                         audioController.playSfx(SfxType.buttonTap);
 
-                        showAdventureSelector(context, level.number);
+                        showAdventureSelector(context, level);
                       },
                       leading: Text(level.number.toString()),
                       title: Text(

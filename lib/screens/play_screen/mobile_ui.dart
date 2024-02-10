@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 
 class MobileUI extends StatelessWidget {
   final Size size;
-  const MobileUI(this.size, {super.key});
+  // final bool spactating;
+  const MobileUI(
+    this.size, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

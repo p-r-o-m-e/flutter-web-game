@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 
 class PlayerProfile extends StatelessWidget {
   final Size size;
-  const PlayerProfile({super.key, required this.size});
+  final bool spectating;
+  const PlayerProfile({super.key, required this.size, this.spectating = false});
 
   @override
   Widget build(BuildContext context) {
@@ -216,10 +217,14 @@ class PlayerProfile extends StatelessWidget {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(VolatileStorage.getInGameDateString(),
+                                Text(
+                                    spectating
+                                        ? '--/--/--'
+                                        : VolatileStorage.getInGameDateString(),
                                     style: Styles.playerTextStyle(
                                       fontColor:
                                           palette.inkFullOpacity.withAlpha(170),
+                                      // fontFamily: 'Chelsea'
                                     )),
                               ],
                             ),
