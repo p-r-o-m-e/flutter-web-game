@@ -6,29 +6,18 @@ import "package:basic/game_internals/skills/skills.dart";
 import "package:flutter/material.dart";
 
 abstract class VolatileStorage {
-  static DateTime _inGameDate = DateTime(601);
-
-  static void advanceInGameDate(int days, {int months = 0, int years = 0}) {}
-
-  static String getInGameDateString() {
-    DateTime dateTime = _inGameDate;
-    String formattedDate =
-        "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year}";
-    return formattedDate;
-  }
-
   static String get getPlayerName => 'Player';
   static String get getPlayerTag => 'Divinecrafter';
   static int get getPlayerLegacy => 00;
 
-  static int get getPlayerAge => 21;
+  // static int get getPlayerAge => 21;
   static String get getPlayerDeity => 'Zeus';
 
   static String get getPlayerProfession => 'Priest';
 
   static String get getPlayerPartner => 'None';
 
-  static final Map<String, int> _playerNumbersDict = {
+  static final Map<String, int> _playerStatsDict = {
     'STR': Constants.initStat,
     'DEF': Constants.initStat,
     'MP': Constants.initStat,
@@ -36,20 +25,71 @@ abstract class VolatileStorage {
     'SPD': Constants.initStat
   };
 
-  static int getFromPlayerNumbersDict(String key) {
-    if (!_playerNumbersDict.containsKey(key)) {
+  static int getFromPlayerStatsDict(String key) {
+    if (!_playerStatsDict.containsKey(key)) {
       throw ArgumentError('Invalid key : $key');
     } else {
-      return _playerNumbersDict[key]!;
+      return _playerStatsDict[key]!;
     }
   }
 
-  static void addtoPlayerNumbersDict(String key, int i) {
-    _playerNumbersDict[key] = i;
+  static void updatePlayerStatsDict(String key, int i) {
+    _playerStatsDict[key] = i;
+  }
+
+  static final Map<String, Item> _inventoryList = {
+    "Mushroom": Item(
+        Tier.common,
+        "Mushroom",
+        Image.asset(
+          "assets/images/items/alchemy_herbs/20.png",
+        ),
+        "A probably poisonous mushroom from the wild"),
+    "Goblin Feet": Item(
+        Tier.superRare,
+        "Goblin Feet",
+        Image.asset(
+          "assets/images/items/goblin_loot/Icon6.png",
+          // height: 128,
+          // width: 128,
+          // fit: BoxFit.contain,
+        ),
+        "What remains of some frail goblin"),
+  };
+  static Item? getFromInventory(String itemName) {
+    if (!_inventoryList.containsKey(itemName)) {
+      //return null if no item with name == itemName
+      return null;
+    } else {
+      return _inventoryList[itemName];
+    }
+  }
+
+  static Item? getFromInventoryByIndex(int i) {
+    //returns null if no element at given index
+    return _inventoryList.length > i
+        ? _inventoryList[_inventoryList.keys.elementAt(i)]
+        : null;
+  }
+
+  static addToInventory(Item item) {
+    // if (!_inventoryList.containsKey(item.name)) {
+    //   // throw ArgumentError("Invalid item name : ${item.name}");
+    // }
+    // ;
+    if (_inventoryList.containsKey(item.name)) {
+      Item tempItem = _inventoryList[item.name]!;
+      tempItem.count =
+          tempItem.count + item.count > 999 ? 999 : tempItem.count + item.count;
+      _inventoryList[item.name] = tempItem;
+    } else {
+      _inventoryList[item.name] = item;
+    }
   }
 }
 
 abstract class Constants {
+  static int get playerInitAge => 21;
   //Items in game
   static final Map<String, Item> _gameItems = {
     "Mushroom": Item(
@@ -58,7 +98,64 @@ abstract class Constants {
         Image.asset(
           "assets/images/items/alchemy_herbs/20.png",
         ),
-        "A probably poisonous mushroom from the wild")
+        "A probably poisonous mushroom from the wild"),
+    "Serpentsprout": Item(
+      Tier.common,
+      "Serpentsprout",
+      Image.asset(
+        "assets/images/items/alchemy_herbs/17.png",
+      ),
+      "It grows delicate antennas which possess medicinal properties",
+    ),
+    "Anuranth": Item(
+        Tier.common,
+        "Anuranth",
+        Image.asset(
+          "assets/images/items/alchemy_herbs/14.png",
+        ),
+        "It grows in wet land and is of exceptional taste to most animals of such habitats"),
+    "Shadowseed": Item(
+        Tier.common,
+        "Shadowseed",
+        Image.asset(
+          "assets/images/items/alchemy_herbs/35.png",
+        ),
+        "It contains a mysterious residue at its core. Not that one should have any use for that"),
+    "Amberdrop": Item(
+        Tier.common,
+        "Amberdrop",
+        Image.asset(
+          "assets/images/items/alchemy_herbs/11.png",
+        ),
+        "Some believe it is some ethereal larvae. But sometimes certain plants grow out of the soil where it would be dropped"),
+    "Goblin Feet": Item(
+        Tier.superRare,
+        "Goblin Feet",
+        Image.asset(
+          "assets/images/items/goblin_loot/Icon6.png",
+        ),
+        "What remains of some frail goblin"),
+    "Goblin Palm": Item(
+        Tier.superRare,
+        "Goblin Palm",
+        Image.asset(
+          "assets/images/items/goblin_loot/Icon5.png",
+        ),
+        "What remains of some frail goblin"),
+    "Goblin Ears": Item(
+        Tier.superRare,
+        "Goblin Ears",
+        Image.asset(
+          "assets/images/items/goblin_loot/Icon3.png",
+        ),
+        "What remains of some frail goblin"),
+    "Clusterberry": Item(
+        Tier.common,
+        "Clusterberry",
+        Image.asset(
+          "assets/images/items/alchemy_herbs/32.png",
+        ),
+        "Looks tasty and oozes something tasty"),
   };
 
   //monsters in game

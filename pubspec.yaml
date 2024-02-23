@@ -34,6 +34,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/items/goblin_loot/
     - assets/images/monsters/atk/
     - assets/images/monsters/def/
     - assets/images/monsters/mp/

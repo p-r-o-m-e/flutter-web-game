@@ -11,7 +11,6 @@ import 'package:basic/screens/level_selection/levels.dart';
 import 'package:basic/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:provider/provider.dart';
 
 void showAdventureWidget(
     BuildContext context, GameLevel area, BattleType battleType) {
@@ -54,21 +53,25 @@ class _AdventureActionWidgetState extends State<AdventureActionWidget> {
     final rewards = widget.battleType == BattleType.hunt
         ? widget.area.getRandomizedRewardPool()
         : null;
-    text = BattleManager.getBattleReport(
+    final battleReportRes = BattleManager.getBattleReport(
         Battle(
           BattleType.hunt,
           Player(),
           opponent,
         ),
         redRewardPool: rewards);
+    text = battleReportRes.text;
+    for (var i in battleReportRes.rewards) {
+      VolatileStorage.addToInventory(i);
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
-        scale: CurvedAnimation(
-            parent: widget.animation, curve: Curves.fastEaseInToSlowEaseOut),
+        scale:
+            CurvedAnimation(parent: widget.animation, curve: Curves.easeInOut),
         child: SimpleDialog(
           // backgroundColor: Colors..withAlpha(150),
           title: Text('Adventure report: Area#${widget.area.number}',

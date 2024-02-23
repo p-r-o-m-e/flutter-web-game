@@ -5,7 +5,7 @@ import 'package:basic/game_internals/entities/items.dart';
 import 'package:basic/utils/storage.dart';
 
 class BattleManager {
-  static String getBattleReport(Battle battle,
+  static BattleReport getBattleReport(Battle battle,
       {RewardPool? redRewardPool, RewardPool? blueRewardPool}) {
     final Random random = Random();
 
@@ -55,6 +55,8 @@ class BattleManager {
         '${battle.blue.getName} used ${battle.blue.chooseMove.getName}.\n';
     redDamageTakenText = '${battle.red.getName} took $blueDamage% damage!\n';
 
+    final List<Item> redRewardslotteryResult = [];
+
     // extract and process rewards
     if (redRewardPool == null) {
       rewardsText = '${battle.red.getName} received :\nNo rewards';
@@ -69,7 +71,6 @@ class BattleManager {
           redRewardPool.rare.isEmpty ? 0 : Constants.rareLootProbability;
       final int commonWeight =
           redRewardPool.common.isEmpty ? 0 : Constants.commonLootProbability;
-      final List<Item> redRewardslotteryResult = [];
       for (int i = 0; i < 1; i++) {
         final Tier lotteryTier = RewardPool.rollForTier(
             legendaryWeight, superRareWeight, rareWeight, commonWeight);
@@ -115,8 +116,14 @@ class BattleManager {
         blueFollowerAttackText +
         redDamageTakenText +
         rewardsText;
-    return res;
+    return BattleReport(res, redRewardslotteryResult);
   }
+}
+
+class BattleReport {
+  final String text;
+  final List<Item> rewards;
+  BattleReport(this.text, this.rewards);
 }
 
 class Battle {

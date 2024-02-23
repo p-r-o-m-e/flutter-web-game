@@ -1,5 +1,8 @@
+import 'package:basic/datetime/game_time_ctrl.dart';
+// import 'package:basic/player_progress/player_progress.dart';
 import 'package:basic/style/palette.dart';
 import 'package:basic/utils/customicon.dart';
+// import 'package:basic/utils/datetime.dart';
 import 'package:basic/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +15,7 @@ class PlayerProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.read<Palette>();
+    // final gameTime = context.watch<GameTime>();
     return Container(
       margin: EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
@@ -58,15 +62,15 @@ class PlayerProfile extends StatelessWidget {
                                   borderRadius: BorderRadius.horizontal(
                                     right: Radius.circular(10),
                                   ),
-                                  value:
-                                      VolatileStorage.getFromPlayerNumbersDict([
-                                            'STR',
-                                            'DEF',
-                                            'MP',
-                                            'MR',
-                                            'SPD'
-                                          ][iteration]) /
-                                          Constants.statCAP,
+                                  value: VolatileStorage.getFromPlayerStatsDict(
+                                          [
+                                        'STR',
+                                        'DEF',
+                                        'MP',
+                                        'MR',
+                                        'SPD'
+                                      ][iteration]) /
+                                      Constants.statCAP,
                                   backgroundColor: Constants.statBoxBG,
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                       Constants.statBoxColor),
@@ -217,23 +221,37 @@ class PlayerProfile extends StatelessWidget {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                    spectating
-                                        ? '--/--/--'
-                                        : VolatileStorage.getInGameDateString(),
-                                    style: Styles.playerTextStyle(
-                                      fontColor:
-                                          palette.inkFullOpacity.withAlpha(170),
-                                      // fontFamily: 'Chelsea'
-                                    )),
+                                // Text(
+                                //     spectating
+                                //         ? '--/--/--'
+                                //         : GameTime.getInGameDateString(),
+                                //     style: Styles.playerTextStyle(
+                                //       fontColor:
+                                //           palette.inkFullOpacity.withAlpha(170),
+                                //       // fontFamily: 'Chelsea'
+                                //     )),
+                                Consumer<GameTime>(
+                                  builder: (context, _, child) => Text(
+                                      spectating
+                                          ? '--/--/--'
+                                          : GameTime.getInGameDateString(),
+                                      style: Styles.playerTextStyle(
+                                        fontColor: palette.inkFullOpacity
+                                            .withAlpha(170),
+                                        // fontFamily: 'Chelsea'
+                                      )),
+                                ),
                               ],
                             ),
                           ),
-                          Text(VolatileStorage.getPlayerAge.toString(),
-                              style: Styles.playerTextStyle(
-                                  fontColor:
-                                      palette.backgroundSettings.withAlpha(170),
-                                  size: 54)),
+                          Consumer<GameTime>(
+                            builder: (context, _, child) => Text(
+                                GameTime.getAge().toString(),
+                                style: Styles.playerTextStyle(
+                                    fontColor: palette.backgroundSettings
+                                        .withAlpha(170),
+                                    size: 54)),
+                          ),
                         ]),
                     Expanded(child: SizedBox()),
                     Expanded(

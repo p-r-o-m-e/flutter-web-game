@@ -1,8 +1,8 @@
-import 'package:basic/style/palette.dart';
+// import 'package:basic/style/palette.dart';
 import 'package:basic/utils/customicon.dart';
 import 'package:basic/utils/storage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class InventoryWidget extends StatelessWidget {
   final Size size;
@@ -111,14 +111,38 @@ class InventoryWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Color(0xFF604737)),
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              8.0), // Adjust the border radius as needed
-                          child: Icon(
-                            Icons.grid_3x3_outlined,
-                            color: Color(0xFF604737).withOpacity(0.3),
-                          ),
-                        ),
+                        child: Stack(children: [
+                          VolatileStorage.getFromInventoryByIndex(i) != null
+                              ? Center(
+                                  child: Image(
+                                    image:
+                                        VolatileStorage.getFromInventoryByIndex(
+                                                i)!
+                                            .icon
+                                            .image,
+                                    // fit: BoxFit.cover,
+                                    height: 64,
+                                    width: 64,
+                                  ),
+                                )
+                              : Center(
+                                  child: Icon(
+                                    Icons.grid_3x3_outlined,
+                                    color: Color(0xFF604737).withOpacity(0.3),
+                                  ),
+                                ),
+                          Positioned(
+                            bottom: 8,
+                            right: 10,
+                            child: Text(
+                              "${VolatileStorage.getFromInventoryByIndex(i) != null ? VolatileStorage.getFromInventoryByIndex(i)!.count : ""}",
+                              style: Styles.playerTextStyle(
+                                  size: 16,
+                                  fontColor:
+                                      Colors.lime.shade300.withOpacity(0.5)),
+                            ),
+                          )
+                        ]),
                       );
                     }),
               ),
